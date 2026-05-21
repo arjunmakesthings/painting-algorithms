@@ -1,0 +1,27 @@
+  1 # from: https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
+  2
+  3 # General
+  4 .DS_Store
+  5 __MACOSX/
+  6 .AppleDouble
+  7 .LSOverride
+  8 Icon[]
+  9
+ 10 # Thumbnails
+ 11 ._*
+ 12
+ 13 # Files that might appear in the root of a volume
+ 14 .DocumentRevisions-V100
+ 15 .fseventsd
+ 16 .Spotlight-V100
+ 17 .TemporaryItems
+ 18 .Trashes
+ 19 .VolumeIcon.icns
+ 20 .com.apple.timemachine.donotpresent
+ 21
+ 22 # Directories potentially created on remote AFP share
+ 23 .AppleDB
+ 24 .AppleDesktop
+ 25 Network Trash Folder
+ 26 Temporary Items
+ 27 .apdisk
