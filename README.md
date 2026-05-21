@@ -22,4 +22,9 @@ note to self: ^ i think i still need to articulate a better why. i feel like i h
 
 ---
 
+# setup:
+shader-files are edited using vim, and viewed via a terminal window using [glslViewer](https://github.com/patriciogonzalezvivo/glslViewer). 
+
+---
+
 made by [arjun](https://arjunmakesthings.github.io); at the recurse-center, summer-2026. a weblog of experiments can be found [here]().   
