@@ -1,5 +1,4 @@
 //get a brush to move; may, 2026. 
-//
 #ifdef GL_ES
 	precision mediump float; 
 #endif
@@ -7,31 +6,57 @@
 //uniforms: 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform sampler2D u_doubleBuffer0; 
 
-bool pick = true; //switch to pick a random point. 
+//since all pixels of a shader get processed every single frame, there is no way for a shader to retain memory. 
+//therefore, we ping pong between two shaders. 
 
+//variables: 
+float size = 0.02; 
+
+//helpers: 
+float random(float n){
+	float multiplier = 1.0; 
+	return fract(sin(n)*multiplier); 
+}
+
+//remember that the entire shader runs once per frame. this means all pixels get processed.
 void main(){
 	//flip coordinates so that canvas in 0,0 at top-left.
 	vec2 uv = gl_FragCoord.xy / u_resolution.xy;
 	uv.y = 1.0 - uv.y;
 
-	float r = 1.0; 
-	float g = 1.0; 
-	float b = 1.0; 
-	float a = 1.0;
+	vec3 color = vec3(0.0);
 
-	//pick a random point to start a stroke on:
-	if (pick){
-		vec2 xy = ();
+	//take previous buffer: 
+	#ifdef DOUBLE_BUFFER_0
+	//colours from the previous frame: 
+	vec3 prev = texture2D(u_doubleBuffer0, uv).rgb;
+
+	//pick a random point to start a stroke:
+	vec2 xy = vec2(random(u_time), 0.5);
+	float d = distance(uv, xy);
+
+	//rules: 
+	//if previously was white, keep white: 
+	if (prev.r > 0.5){
+		color = vec3(1.0); 
 	}
-
-	if (uv.x < 0.5){
-		r = 0.0; 
+	//if not, check for distance to selected point. 
+	else if (d<size){
+		//make a new point. 
+		color = vec3(1.0); 
 	}
 	else{
-		r = 1.0; 
+		//ignore: 
+		color = vec3(0.0);
 	}
 
-	//output:
-	gl_FragColor = vec4(r,g,b,a); 
+#else 
+color = texture2D(u_doubleBuffer0, uv).rgb;
+
+#endif
+
+//output: 
+gl_FragColor = vec4(color, 1.0); 
 }
