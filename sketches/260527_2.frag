@@ -17,13 +17,17 @@ void main() {
 
 	vec3 color = vec3(0.0); //initiate color as black for everything.
 
+	vec2 pos = gl_FragCoord.xy;
+
+	float size = 40.0; 
+
 	//starting state: 
-	if(u_frame < 10) {
+	if(u_frame==0) {
 		//this is the starting state. 
-		if(mod(gl_FragCoord.x, 2.0) == 0.0) {
-			color.r = 1.0;
+		if(mod(pos.x / size, 2.0)<1.0 && mod(pos.y / size, 2.0)<1.0) {
+			color = vec3(1.0);
 		} else {
-			color.r = 0.0;
+			color = vec3(0.0); 
 		}
 	} else {
 
@@ -38,9 +42,9 @@ void main() {
 
 	//let's do a flashing thing. 
 		if(color.r < 0.5) {
-			color.r = 1.0;
+			color = vec3(1.0); 
 		} else {
-			color.r = 0.0;
+			color = vec3(0.0); 
 		}
 
 #else
