@@ -1,1 +1,3 @@
 https://registry.khronos.org/OpenGL-Refpages/gl4/index.php
+
+https://github.com/patriciogonzalezvivo/glslViewer/wiki/GlslViewer-DEFINES#buffers-and-render-passes
