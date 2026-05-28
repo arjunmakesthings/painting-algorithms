@@ -6,7 +6,8 @@
 
 //uniforms: 
 uniform vec2 u_resolution;
-uniform float u_time; 
+uniform float u_time;
+uniform int u_frame; 
 
 uniform sampler2D u_doubleBuffer0; 
 
@@ -21,19 +22,29 @@ void main(){
 	vec2 uv = pos.xy / u_resolution.xy;
 
 	//flip:
-	//flip(uv);
+	flip(uv);
 
 	vec3 color = vec3(0.0);
 
 	//brush stuff: 
-	vec2 pos = vec2(0.5); //in the middle.
-	float size = 20.0;
+	vec2 brush_pos = vec2(0.5, 0.5); //in the middle.
+	float size = 20.0/ u_resolution.x * u_resolution.y;
 
-	float d = dist(uv, pos);
+	float d = distance(uv, brush_pos);
 
 	//starting state: 
-	if (u_frame==0){
-		
+	if (u_frame<10){
+		//vec2 col = step(d, mod(pos / size, 2.0));
+
+		if (d < size){
+			color = vec3(1.0); 
+		}else{
+			color = vec3(1.0,0.0,0.0); 
+		}
+
+		//vec2 col = step(size, uv); 
+
+	//color = vec3(col.x * col.y); 
 	}
 	else{
 
@@ -46,10 +57,10 @@ void main(){
 
 #else
 		//show buffer as is:
-		color = texture2D(u_doubleBuffer0.uv).rgb; 
+		color = texture2D(u_doubleBuffer0, uv).rgb; 
 
 #endif
+	}
 		//output:
 		gl_FragColor = vec4(color, 1.0); 
-	}
 }
