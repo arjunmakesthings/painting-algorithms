@@ -13,15 +13,27 @@ void main(){
 	vec2 uv = gl_FragCoord.xy / u_resolution.xy;
 	vec2 pos = gl_FragCoord.xy; 
 
-	float size = smoothstep(0.0,1.0,sin(u_time*0.0005));
+	float size = 20.0;  
 	//int x = int(floor(gl_pos.x / 20.0))
 
+	float x = step(1.0, mod(pos.x / size, 2.0)); 
+	float y = step(1.0, mod(pos.y / size, 2.0)); 
+
+	//doing this is the same as an 'and' condition.
+	float xy = x * y; 
+
+	color = vec3(xy); 
+	 
+
+	/*
+	
 	if (mod(pos.x / size, 2.0)<1.0 && mod(pos.y / size, 2.0)<1.0){
 		color = vec3(1.0); 
 	}
 	else{
 		color = vec3(0.0); 
 	}
+	*/
 
 	/*
 
