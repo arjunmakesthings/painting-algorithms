@@ -23,13 +23,17 @@ void main(){
 	//flip:
 	//flip(uv);
 
-	vec3 color = vec3(0.0); 
+	vec3 color = vec3(0.0);
 
-	float size = 20.0; 
+	//brush stuff: 
+	vec2 pos = vec2(0.5); //in the middle.
+	float size = 20.0;
+
+	float d = dist(uv, pos);
 
 	//starting state: 
 	if (u_frame==0){
-		if
+		
 	}
 	else{
 

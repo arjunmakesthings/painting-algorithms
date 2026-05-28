@@ -16,13 +16,17 @@ void main(){
 	float size = 20.0;  
 	//int x = int(floor(gl_pos.x / 20.0))
 
+	/*
 	float x = step(1.0, mod(pos.x / size, 2.0)); 
 	float y = step(1.0, mod(pos.y / size, 2.0)); 
 
 	//doing this is the same as an 'and' condition.
-	float xy = x * y; 
+	float xy = x * y;
 
-	color = vec3(xy); 
+	*/
+
+	vec2 col = step(1.0, mod(pos / size, 2.0))
+	color = vec3(col.x * col.y); 
 	 
 
 	/*
