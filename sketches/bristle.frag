@@ -9,6 +9,8 @@ uniform vec2 u_resolution;
 uniform float u_time;
 uniform int u_frame; 
 
+uniform vec2 u_mouse; 
+
 uniform sampler2D u_doubleBuffer0; 
 
 //helpers:
@@ -20,24 +22,54 @@ void flip(inout vec2 uv){
 void main(){
 	vec2 pos = gl_FragCoord.xy; 
 	vec2 uv = pos.xy / u_resolution.xy;
+	vec2 norm_mouse = vec2(u_mouse / u_resolution); 
 
 	//flip:
-	flip(uv);
+	//flip(uv);
 
 	vec3 color = vec3(0.0);
 
 	//brush stuff: 
-	vec2 brush_pos = vec2(0.5, 0.5); //in the middle.
+	vec2 brush_pos = vec2(norm_mouse); //follow the mouse.
 	float size = 0.05;  
 
 	float d = distance(uv, brush_pos);
 
-	if (d < size){
-		color = vec3(1.0); 
-	}else{
-		color = vec3(1.0,0.0,0.0); 
+	if (u_frame==0){
+		//first frame:
+		if (d < size){
+			color = vec3(1.0); 
+		}else{
+			color = vec3(0.0); 
+		}
 	}
 
+	else{
+#ifdef DOUBLE_BUFFER_0
+	//compute:
+
+	//take color from last frame:
+	color = texture2D(u_doubleBuffer0, uv).rgb;
+
+	if (color.r == 1.0){
+		//if it was white, let it be white; and don't do any computation on it:
+		color = vec3(1.0); 
+	}else{
+		//if it was black, we do computation on it:
+		//check distance again: 
+		if (d < size){
+			color = vec3(1.0); 
+		}else{
+			color = vec3(0.0); 
+		}
+	}
+
+#else
+	//main buffer:
+	color = texture2D (u_doubleBuffer0, uv).rgb; 
+
+#endif
+	}
 	//output:
 	gl_FragColor = vec4(color, 1.0); 
 }
