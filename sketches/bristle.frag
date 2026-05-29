@@ -28,39 +28,16 @@ void main(){
 
 	//brush stuff: 
 	vec2 brush_pos = vec2(0.5, 0.5); //in the middle.
-	float size = 20.0/ u_resolution.x * u_resolution.y;
+	float size = 0.05;  
 
 	float d = distance(uv, brush_pos);
 
-	//starting state: 
-	if (u_frame<10){
-		//vec2 col = step(d, mod(pos / size, 2.0));
-
-		if (d < size){
-			color = vec3(1.0); 
-		}else{
-			color = vec3(1.0,0.0,0.0); 
-		}
-
-		//vec2 col = step(size, uv); 
-
-	//color = vec3(col.x * col.y); 
+	if (d < size){
+		color = vec3(1.0); 
+	}else{
+		color = vec3(1.0,0.0,0.0); 
 	}
-	else{
 
-#ifdef DOUBLE_BUFFER_0
-		//compute here:
-		//get history for each pixel. 
-		vec4 prev = texture2D(u_doubleBuffer0, uv).rgba; 
-		color = vec3(prev.rgb); 
-
-
-#else
-		//show buffer as is:
-		color = texture2D(u_doubleBuffer0, uv).rgb; 
-
-#endif
-	}
-		//output:
-		gl_FragColor = vec4(color, 1.0); 
+	//output:
+	gl_FragColor = vec4(color, 1.0); 
 }
