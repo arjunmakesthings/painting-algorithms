@@ -35,16 +35,9 @@ void main(){
 
 	float d = distance(uv, brush_pos);
 
-	if (u_frame==0){
-		//first frame:
-		if (d < size){
-			color = vec3(1.0); 
-		}else{
-			color = vec3(0.0); 
-		}
-	}
+	//paint only on canvas, and clear when i'm outside.
+	if (u_mouse.x > 1.0 && u_mouse.y > 1.0){
 
-	else{
 #ifdef DOUBLE_BUFFER_0
 	//compute:
 
@@ -69,7 +62,8 @@ void main(){
 	color = texture2D (u_doubleBuffer0, uv).rgb; 
 
 #endif
-	}
 	//output:
 	gl_FragColor = vec4(color, 1.0); 
+	
+}
 }
